@@ -19,20 +19,22 @@ class Login:
 
         try:
             cursor = connection.cursor(dictionary=True)
-            query = "SELECT role FROM users WHERE username = %s"
+            query = "SELECT password,role FROM users WHERE username = %s"
             cursor.execute(query, (self.username,))
             result = cursor.fetchone()
 
-            role_value = result.get('role').lower()
-
-            role = self.role.lower()
-
-            print(f"Pilihan: {role}, data; {role_value}")
-            if role_value == role:
-                print(f"Selamat datang {self.username}")
-                return role_value
+            if result is None:
+                print(f"Username: {self.username} tidak ditemukan!")
             else:
-                print(f"{self.username} tidak terdaftar sebagai role {role}")
+                role_value = result.get('role').lower()
+                password_value = result.get('password').lower()
+                role = self.role.lower()
+
+                if role_value == role and self.password == password_value:
+                    print(f"Selamat datang {role} {self.username}")
+                    return role_value
+                else:
+                    print(f"{self.username} tidak terdaftar sebagai role {role}")
         
         except Exception as e:
             print(e)
