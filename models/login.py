@@ -47,8 +47,8 @@ if __name__=="__main__":
             "Manager"
         ]
     ).ask()
-    username = input("Input your username: ").lower()
-    password = input("Input your password: ").lower()
+    username = questionary.text("Enter your Username: ").ask().lower()
+    password = questionary.password("Enter your Password: ").ask().lower()
 
     user_login = Login(username,password,role)
     user_login.ambilRole()
