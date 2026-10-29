@@ -40,7 +40,7 @@ class Login:
 if __name__=="__main__":
     os.system('cls')
     role = questionary.select(
-        'Choice your role:',
+        'Choose your role:',
         choices = [
             "Admin",
             "Cashier",
