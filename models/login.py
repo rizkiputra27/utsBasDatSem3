@@ -31,7 +31,7 @@ class Login:
                 role = self.role.lower()
 
                 if role_value == role and self.password == password_value:
-                    print(f"Selamat datang {role} {self.username}")
+                    print(f"Selamat DATANG {role} {self.username}")
                     return role_value
                 else:
                     print(f"{self.username} tidak terdaftar sebagai role {role}")
