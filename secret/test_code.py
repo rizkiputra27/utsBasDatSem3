@@ -14,3 +14,4 @@ stop = 10
 for i in range(stop):
     print(f"Coba lagi dalam {i+1:02d} detik", end="\r")
     time.sleep(1)
+    
