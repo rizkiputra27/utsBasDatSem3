@@ -1,6 +1,6 @@
 import sys
 import os
-import questionary
+from datetime import datetime
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -15,7 +15,7 @@ class Login:
     def ambilRole(self):
         connection = get_conection()
         if connection is None:
-            return False
+            return 0
 
         try:
             cursor = connection.cursor(dictionary=True)
@@ -23,34 +23,27 @@ class Login:
             cursor.execute(query, (self.username,))
             result = cursor.fetchone()
 
-            if result is None:
-                print(f"Username: {self.username} tidak ditemukan!")
-            else:
-                role_value = result.get('role').lower()
-                password_value = result.get('password').lower()
-                role = self.role.lower()
-
-                if role_value == role and self.password == password_value:
-                    print(f"Selamat DATANG {role} {self.username}")
-                    return role_value
-                else:
-                    print(f"{self.username} tidak terdaftar sebagai role {role}")
+            return result
         
         except Exception as e:
             print(e)
 
-if __name__=="__main__":
-    os.system('cls')
-    role = questionary.select(
-        'Choose your role:',
-        choices = [
-            "Admin",
-            "Cashier",
-            "Manager"
-        ]
-    ).ask()
-    username = questionary.text("Enter your Username: ").ask().lower()
-    password = questionary.password("Enter your Password: ").ask().lower()
+    def login(self):
+        result_role = self.ambilRole()
+        waktu_login = datetime.now()
 
-    user_login = Login(username,password,role)
-    user_login.ambilRole()
+
+        if result_role is None:
+            print(f"Username: {self.username} tidak ditemukan!")
+        else:
+            role_value = result_role.get("role").lower()
+            password_value = result_role.get('password').lower()
+            role = self.role.lower()
+
+            if role_value == role and self.password == password_value:
+                print(f"Selamat DATANG {role} {self.username}")
+                print(f"Waktu login {waktu_login.strftime("%d %B %Y - %H:%M")}")
+                return role_value
+            else:
+                print(f"{self.username} tidak terdaftar sebagai role {role}")
+
