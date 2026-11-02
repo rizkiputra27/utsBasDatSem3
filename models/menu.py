@@ -1,4 +1,19 @@
-import login
-from login import Login
+import os
+import questionary
 
-print(Login.ambilRole())
+
+class Menu:
+    def __init__(self,role):
+        self.role = role
+
+    def tampil_menu():
+        pass
+
+class Admin(Menu):
+    def __init__(self,role):
+        super().__init__(role)
+
+    def tampil_menu():
+        menu_admin = questionary.select(
+            
+        )

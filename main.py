@@ -3,6 +3,7 @@ import time
 import questionary
 from winotify import Notification, audio
 from models.login import Login
+from models.menu import Menu
 
 def main():
     percobaan = 0
@@ -20,10 +21,10 @@ def main():
         password = questionary.password("Enter your Password: ").ask().lower()
 
         user_login = Login(username,password,role)
-        user_login.login()
-        questionary.press_any_key_to_continue().ask()
+        hasil_login = user_login.login()
 
-        percobaan += 1
+        if hasil_login is None:
+            percobaan += 1
 
         if percobaan >2:
             stop = 10
@@ -41,6 +42,11 @@ def main():
                 time.sleep(1)
             percobaan = 0
 
+        if hasil_login:
+            masuk_menu = Menu(hasil_login)
+            masuk_menu.tampil_role()
+
+        questionary.press_any_key_to_continue().ask()
 
 
 if __name__=="__main__":
