@@ -36,6 +36,17 @@ class Manager:
             ]
         ).ask()
 
+        if menu_karyawan == "1":
+            print("tambah karyawan")
+        elif menu_karyawan == "2":
+            print("hapus karyawan")
+        elif menu_karyawan == "3":
+            print("ubah karyawan")
+        elif menu_karyawan == "4":
+            print("lihat karyawan")
+        elif menu_karyawan == "5":
+            return
+
         return menu_karyawan
     def manajemen_kinerja(self):
         menu_kinerja = questionary.rawselect(
@@ -45,5 +56,7 @@ class Manager:
                 Choice(title = "kembali", value = "2"),
             ]
         ).ask()
+
+
 
         return menu_kinerja

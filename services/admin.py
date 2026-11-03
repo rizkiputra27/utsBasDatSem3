@@ -1,6 +1,9 @@
+from features.admin_produk import Produk
 from models.menu import Menu
 import questionary
 from questionary import Choice
+
+from services.kasir import Kasir
 
 class Admin(Menu):
     def __init__(self):
@@ -63,6 +66,18 @@ class Admin(Menu):
             ]
         ).ask()
 
+        if menu_stok:
+            from features.admin_produk import Produk
+            produk = Produk()
+            if menu_stok == "1":
+                produk.tambah_stok()
+            elif menu_stok == "2":
+                produk.update_stok()
+            elif menu_stok == "3":
+                produk.hapus_stok()
+            else:
+                print("perintah tidak diketahui.")
+
     def kelola_kasir(self):
         menu_kasir = questionary.rawselect(
             "\n===== MENU KASIR =====",
@@ -74,3 +89,17 @@ class Admin(Menu):
                 Choice(title = "Keluar", value = "5"),
             ]
         ).ask()
+
+        if menu_kasir:
+            from features.admin_kasir import Kasir
+            kasir = Kasir()
+            if menu_kasir == "1":
+                kasir.tambah_kasir()
+            elif menu_kasir == "2":
+                kasir.edit_kasir()
+            elif menu_kasir == "3":
+                kasir.hapus_kasir()
+            elif menu_kasir == "4":
+                kasir.lihat_kasir()
+            else:
+                print("perintah tidak diketahui.")
