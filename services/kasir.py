@@ -1,20 +1,18 @@
 from models.menu import Menu
 import questionary
+from questionary import Choice
 
 class kasir(Menu):
     def __init__(self, role):
         super().__init__(role)
 
-    def tampil_menu(self):
-        print("=== MENU KASIR ===")
-        print("1. Cek Stok")
-        print("2. Transaksi")
-        print("3. Keluar")
-        pilih = input("Pilih menu: ")
+    def tampil_menu():
+            menu_admin = questionary.rawselect(
+                "===== MENU ADMIN =====",
+                choices = [
+                    Choice(title = "menampilkan stok", value = "1"),
+                    Choice(title = "transaksi", value = "2"),
+                    Choice(title = "keluar", value = "3"),
+                ]
+            ).ask()
         
-        if pilih == "1":
-            print("Menampilkan stok barang")
-        elif pilih == "2":
-            print("Menu transaksi")
-        elif pilih == "3":
-            print("Keluar dari Menu Kasir")
