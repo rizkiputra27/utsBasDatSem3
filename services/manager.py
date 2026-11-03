@@ -3,12 +3,12 @@ import questionary
 from questionary import Choice
 
 class Manager:
-    def __init__(self, role):
-        super().__init__(role)
+    def __init__(self):
+        pass
 
-    def tampil_menu():
+    def manager_menu(self):
         menu_manager = questionary.rawselect(
-            "===== MENU MANAGER =====",
+            "\n===== MENU MANAGER =====",
             choices = [
                 Choice(title = "manajemen karyawan", value = "1"),
                 Choice(title = "manajemen kinerja", value = "2"),
@@ -17,11 +17,16 @@ class Manager:
             ]
         ).ask()
 
-        return menu_manager
+        if menu_manager == "1":
+            self.manajemen_karyawan()
+        elif menu_manager == "2":
+            self.manajemen_kinerja()
+        else:
+            print("Menu belum tersedia.")
 
-    def manajemen_karyawan():
+    def manajemen_karyawan(self):
         menu_karyawan = questionary.rawselect(
-            "===== MENU MANAJEMEN KARYAWAN =====",
+            "\n===== MENU MANAJEMEN KARYAWAN =====",
             choices = [
                 Choice(title = "tambah karyawan", value = "1"),
                 Choice(title = "hapus karyawan", value = "2"),
@@ -32,9 +37,9 @@ class Manager:
         ).ask()
 
         return menu_karyawan
-    def manajemen_kinerja():
+    def manajemen_kinerja(self):
         menu_kinerja = questionary.rawselect(
-            "===== MENU MANAJEMEN KINERJA =====",
+            "\n===== MENU MANAJEMEN KINERJA =====",
             choices = [
                 Choice(title = "lihat kinerja", value = "1"),
                 Choice(title = "kembali", value = "2"),

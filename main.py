@@ -11,7 +11,7 @@ def main():
     while True:
         os.system('cls')
         role = questionary.select(
-            'Choose your role:',
+            '\nChoose your role:',
             choices = [
                 "Admin",
                 "Cashier",
@@ -25,7 +25,7 @@ def main():
         hasil_login = user_login.login()
 
         tampil_menu = Menu(hasil_login)
-        tampil_menu.pilih_menu()
+        tampil_menu.tampil_menu()
 
         if hasil_login is None:
             percobaan += 1

@@ -3,12 +3,12 @@ import questionary
 from questionary import Choice
 
 class Kasir(Menu):
-    def __init__(self, role):
-        super().__init__(role)
+    def __init__(self):
+        pass
 
-    def tampil_menu():
+    def kasir_menu(self):
         menu_kasir = questionary.rawselect(
-            "===== MENU ADMIN =====",    
+            "\n===== MENU ADMIN =====",    
             choices = [
                 Choice(title = "Kelola stok", value = "1"),
                 Choice(title = "transaksi", value = "2"),
