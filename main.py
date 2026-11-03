@@ -5,6 +5,7 @@ from winotify import Notification, audio
 from models.login import Login
 from models.menu import Menu
 
+
 def main():
     percobaan = 0
     while True:
@@ -23,28 +24,27 @@ def main():
         user_login = Login(username,password,role)
         hasil_login = user_login.login()
 
+        tampil_menu = Menu(hasil_login)
+        tampil_menu.pilih_menu()
+
         if hasil_login is None:
             percobaan += 1
 
-        if percobaan >2:
-            stop = 10
-            notif1 = Notification(
-                        app_id = "Informasi Akun",
-                        title = "Jumlah percobaan masuk gagal 3",
-                        msg = "Tunggu 10 detik dan coba lagi...",
-                        duration = "short"
-                    )
-            notif1.set_audio(audio.Default, loop=False)
-            notif1.show()
+            if percobaan >2:
+                stop = 10
+                notif1 = Notification(
+                            app_id = "Informasi Akun",
+                            title = "Jumlah percobaan masuk gagal 3",
+                            msg = "Tunggu 10 detik dan coba lagi...",
+                            duration = "short"
+                        )
+                notif1.set_audio(audio.Default, loop=False)
+                notif1.show()
 
-            for i in range(stop):
-                print(f"Coba lagi dalam {i+1:02d} detik", end="\r")
-                time.sleep(1)
-            percobaan = 0
-
-        if hasil_login:
-            masuk_menu = Menu(hasil_login)
-            masuk_menu.tampil_role()
+                for i in range(stop):
+                    print(f"Coba lagi dalam {i+1:02d} detik", end="\r")
+                    time.sleep(1)
+                percobaan = 0
 
         questionary.press_any_key_to_continue().ask()
 

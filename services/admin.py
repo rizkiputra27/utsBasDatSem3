@@ -3,8 +3,8 @@ import questionary
 from questionary import Choice
 
 class Admin(Menu):
-    def __init__(self,role):
-        super().__init__(role)
+    def __init__(self):
+        pass
 
     def tampil_menu():
         menu_admin = questionary.rawselect(
@@ -12,6 +12,8 @@ class Admin(Menu):
             choices = [
                 Choice(title = "Kelola Produk", value = "1"),
                 Choice(title = "Kelola Stok", value = "2"),
-                Choice(title = "Kelola Kasir", value = "3"),
+                Choice(title = "hitung pendapatan ", value = "3"),
+                Choice(title = "laporan", value = "4"),
+                Choice(title = "Keluar", value = "5"),
             ]
         ).ask()
