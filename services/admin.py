@@ -1,4 +1,3 @@
-from features.admin_produk import Produk
 from models.menu import Menu
 import questionary
 from questionary import Choice
