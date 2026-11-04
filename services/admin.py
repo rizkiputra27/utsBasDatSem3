@@ -66,14 +66,14 @@ class Admin(Menu):
         ).ask()
 
         if menu_stok:
-            from features.admin_produk import Produk
-            produk = Produk()
+            from features.admin_stok import Stok
+            stok = Stok()
             if menu_stok == "1":
-                produk.tambah_stok()
+                stok.tambah_stok()
             elif menu_stok == "2":
-                produk.update_stok()
+                stok.update_stok()
             elif menu_stok == "3":
-                produk.hapus_stok()
+                stok.hapus_stok()
             else:
                 print("perintah tidak diketahui.")
 

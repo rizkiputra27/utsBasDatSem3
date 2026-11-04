@@ -16,4 +16,12 @@ class Kasir(Menu):
             ]
         ).ask()
         
-        return menu_kasir
+        if menu_kasir:
+            from features.kasir_kelola_stok import Stok
+            stok_kasir = Stok()
+            if menu_kasir == "1":
+                stok_kasir.kelola_stok()
+            elif menu_kasir == "2":
+                stok_kasir.transaksi()
+            else:
+                print("Masukkan menu yang benar.")
