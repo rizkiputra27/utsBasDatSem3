@@ -2,6 +2,7 @@ import questionary
 from questionary import Choice
 import os
 from database.connection import get_conection
+import dialite
 
 class Karyawan:
     def edit_karyawan(self):
@@ -32,13 +33,14 @@ class Karyawan:
 
         match menu_manajemen_admin:
             case "1":
-                self.tampilkan_admin()
+                self.tambah_kasir()
             case "2":
                 pass
             case "3":
                 pass
             case "4":
-                pass
+                self.tampilkan_admin()
+                
 
 
     def tampilkan_admin(self):
@@ -66,6 +68,32 @@ class Karyawan:
 
             except Exception as e:
                 print(e)
+
+    def tambah_kasir(self):
+        connection = get_conection()
+        if connection is None:
+            return 0
+
+        try:
+            id_admin = questionary.text("Masukkan id admin baru:").ask()
+            id_int = int(id_admin)
+            nama_admin = questionary.text("Masukkan nama admin: ").ask()
+            user_admin = questionary.text("Masukkan username admin: ").ask()
+            pass_admin = questionary.text("Masukkan password admin: ").ask()
+            role_admin = "admin"
+
+            cursor = connection.cursor(dictionary=True)
+            query = """
+                    INSERT INTO users
+                    VALUES (%s,%s,%s,%s,%s)
+                    """
+            data = id_int,nama_admin,user_admin,pass_admin,role_admin
+            cursor.execute(query,data)
+            connection.commit()
+            dialite.inform("informasi","Data berhasil disimpam ke database.")
+        except Exception as e:
+            print(e)
+
 
     def manajemen_kasir(self):
         menu_manajemen_kasir = questionary.rawselect(
