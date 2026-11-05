@@ -37,7 +37,7 @@ class Karyawan:
             case "2":
                 pass
             case "3":
-                pass
+                self.hapus_kasir()
             case "4":
                 self.tampilkan_admin()
                 
@@ -56,7 +56,7 @@ class Karyawan:
 
                 # print(result)
 
-                print(f"{'ID':^5}{'NAMA':^15}{'USERNAME':^11}{'PASSWORD':^11}{'ROLE':^7}")
+                print(f"{'ID':^5}{'NAMA':^25}{'USERNAME':^17}{'PASSWORD':^17}{'ROLE':^7}")
                 for hasil in result:
                     ID = hasil['user_id']
                     NAMA = hasil['nama']
@@ -64,7 +64,7 @@ class Karyawan:
                     PASSWORD = hasil['password']
                     ROLE = hasil['role']
 
-                    print(f"{ID:^5}{NAMA:^15}{USERNAME:^11}{PASSWORD:^7}{ROLE:^7}")
+                    print(f"{ID:^5}{NAMA:^25}{USERNAME:^17}{PASSWORD:^17}{ROLE:^7}")
 
             except Exception as e:
                 print(e)
@@ -75,24 +75,64 @@ class Karyawan:
             return 0
 
         try:
-            id_admin = questionary.text("Masukkan id admin baru:").ask()
-            id_int = int(id_admin)
+            while True:
+                id_admin = questionary.text("Masukkan id admin baru:").ask()
+                if id_admin.isdigit():
+                    id_int = int(id_admin)
+                    break
+                else:
+                    dialite.warn(title="Peringatan",message="Masukkan angka bulat positif.")
+
             nama_admin = questionary.text("Masukkan nama admin: ").ask()
             user_admin = questionary.text("Masukkan username admin: ").ask()
             pass_admin = questionary.text("Masukkan password admin: ").ask()
             role_admin = "admin"
 
-            cursor = connection.cursor(dictionary=True)
-            query = """
-                    INSERT INTO users
-                    VALUES (%s,%s,%s,%s,%s)
-                    """
-            data = id_int,nama_admin,user_admin,pass_admin,role_admin
-            cursor.execute(query,data)
-            connection.commit()
-            dialite.inform("informasi","Data berhasil disimpam ke database.")
+            try:
+                cursor = connection.cursor(dictionary=True)
+                query = """
+                        INSERT INTO users
+                        VALUES (%s,%s,%s,%s,%s)
+                        """
+                data = id_int,nama_admin,user_admin,pass_admin,role_admin
+                cursor.execute(query,data)
+                connection.commit()
+                dialite.inform(title="informasi",message="Data berhasil disimpam ke database.")
+            except Exception as e:
+                dialite.warn(title="Peringatan!!", message=str(e))
+
         except Exception as e:
             print(e)
+
+    def hapus_kasir(self):
+        connection = get_conection()
+        if connection is None:
+            return dialite.warn(title="Peringatan",message="Data gagal dimuat/kosong.")
+
+        try:
+            cursor = connection.cursor(dictionary=True)
+            query = "SELECT * FROM users WHERE role = 'admin'"
+            cursor.execute(query)
+            hasil = cursor.fetchall()
+            if hasil is None:
+                dialite.warn(title="Peringatan",message="Data admin kosong/gagal dimuat.")
+                return
+            hasil_nama = hasil['nama']
+        except:
+            return dialite.warn(title="Peringatan",message="Gagal mengambil data.")
+
+        pilih_hapus = questionary.autocomplete(
+            "Masukkan nama:",
+            choices = [hasil_nama]
+        ).ask()
+        print(hasil_nama['username'])
+        try:
+            curson = connection.cursor(dictionary=True)
+            query = ""
+        except:
+            pass
+
+        
 
 
     def manajemen_kasir(self):
