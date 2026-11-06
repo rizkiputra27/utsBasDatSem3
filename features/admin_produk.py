@@ -1,12 +1,12 @@
 import questionary
 from questionary import Choice
 import os
-from databese.connection import get_conection
+from database.connection import get_conection
 
 
 class Produk:
     def sambung(self):
-        connection = get_conection()
+        self.connection = get_conection()
 
 
     def tampil_produk(self):
@@ -43,12 +43,26 @@ class Produk:
         VALUES(%s,%s,%s,%s,%s)
         """
     def update_produk(self):
-          
+        cursor = connection.cursor(dictionary=True)
+        sql = """
+        SET
+            UPDATE products
+            category_id = %s,
+            nama = %s,
+            cost_price = %s,
+            selling_price = %s,
+            stock = %s,
+            min_stock = %s
+        
+        WHERE product_id = %s 
+        """
 
     def hapus_produk(self):
-        
-
+        cursor = connection.cursor(dictionary=True)
+        sql = "DELETE FROM products WHERE id = %s"
     def tampilkan_produk(self):
+        cursor = connection.cursor(dictionary=True)
+        sql = "SELECT * FROM products"
         
         
 
