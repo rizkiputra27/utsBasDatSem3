@@ -108,30 +108,34 @@ class Karyawan:
         connection = get_conection()
         if connection is None:
             return dialite.warn(title="Peringatan",message="Data gagal dimuat/kosong.")
+        else:cursor=connection.cursor(dictionary=True)
 
         try:
-            cursor = connection.cursor(dictionary=True)
             query = "SELECT nama FROM users WHERE role = 'admin'"
             cursor.execute(query)
             hasil = cursor.fetchall()
             if hasil is None:
                 dialite.warn(title="Peringatan",message="Data admin kosong/gagal dimuat.")
                 return
-            hasil_nama = [hasil for i in hasil]
+            hasil_nama = [admin['nama'] for admin in hasil]
         except Exception as e:
             return dialite.warn(title="Peringatan",message=f"Gagal mengambil data.{e}")
 
         pilih_hapus = questionary.autocomplete(
             "Masukkan nama:",
-            choices = [hasil]
+            choices = hasil_nama
         ).ask()
-        try:
-            curson = connection.cursor(dictionary=True)
-            query = ""
-        except:
-            pass
 
-        
+
+        try:
+            query = "DELETE FROM users WHERE nama = %s"
+            cursor.execute(query,(pilih_hapus,))
+            connection.commit()
+            dialite.inform(title="Informasi",message=f"{pilih_hapus} berhasil dihapus dari data Admin")
+
+        except Exception as e:
+            dialite.warn(title="Peringatan",message=f"{e}")
+            
 
 
     def manajemen_kasir(self):
