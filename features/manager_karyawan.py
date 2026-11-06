@@ -37,7 +37,7 @@ class Karyawan:
             case "2":
                 pass
             case "3":
-                self.hapus_kasir()
+                self.hapus_admin()
             case "4":
                 self.tampilkan_admin()
                 
@@ -104,28 +104,27 @@ class Karyawan:
         except Exception as e:
             print(e)
 
-    def hapus_kasir(self):
+    def hapus_admin(self):
         connection = get_conection()
         if connection is None:
             return dialite.warn(title="Peringatan",message="Data gagal dimuat/kosong.")
 
         try:
             cursor = connection.cursor(dictionary=True)
-            query = "SELECT * FROM users WHERE role = 'admin'"
+            query = "SELECT nama FROM users WHERE role = 'admin'"
             cursor.execute(query)
             hasil = cursor.fetchall()
             if hasil is None:
                 dialite.warn(title="Peringatan",message="Data admin kosong/gagal dimuat.")
                 return
-            hasil_nama = hasil['nama']
-        except:
-            return dialite.warn(title="Peringatan",message="Gagal mengambil data.")
+            hasil_nama = [hasil for i in hasil]
+        except Exception as e:
+            return dialite.warn(title="Peringatan",message=f"Gagal mengambil data.{e}")
 
         pilih_hapus = questionary.autocomplete(
             "Masukkan nama:",
-            choices = [hasil_nama]
+            choices = [hasil]
         ).ask()
-        print(hasil_nama['username'])
         try:
             curson = connection.cursor(dictionary=True)
             query = ""
